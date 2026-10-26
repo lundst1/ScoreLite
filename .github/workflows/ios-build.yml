@@ -13,7 +13,7 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 60
     # Workload-setet bestämmer iOS SDK-versionen, som kräver en viss Xcode. Runnern har högst Xcode 26.6.
-    # 10.0.402 (iOS 27.0) och 10.0.403 (iOS 27.1) kräver Xcode 27 och fungerar inte. 10.0.400/10.0.401 ger iOS 26.5 (Xcode 26.5).
+    # 10.0.402 (iOS 27.0) och 10.0.403 (iOS 27.1) kräver Xcode 27 och fungerar inte. 10.0.400/10.0.401 ger iOS 26.5, och 10.0.401 kräver Xcode 26.6.
     strategy:
       fail-fast: false
       matrix:
@@ -31,13 +31,14 @@ jobs:
           xcodebuild -version
           xcode-select -p
 
-      # iOS 26.5-paketet matchar Xcode 26.5. Xcode_26.6.0.app saknar macOS-SDK på runnern, så välj 26.5 uttryckligen.
-      - name: Välj Xcode 26.5
+      # iOS-paketet 26.5.10318 (workload-set 10.0.401) kräver Xcode 26.6. Xcode_26.6.0.app saknar macOS-SDK på runnern,
+      # men Xcode_26.6.app fungerar (samma som runnerns förval).
+      - name: Välj Xcode 26.6
         shell: bash
         run: |
-          sudo xcode-select -s /Applications/Xcode_26.5.app/Contents/Developer
+          sudo xcode-select -s /Applications/Xcode_26.6.app/Contents/Developer
           xcodebuild -version
-          ls /Applications/Xcode_26.5.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs
+          ls /Applications/Xcode_26.6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs
 
       - name: Diagnos (Xcode och workload-set)
         shell: bash
