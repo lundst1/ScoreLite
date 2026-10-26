@@ -25,6 +25,16 @@ jobs:
           xcodebuild -version
           xcode-select -p
 
+      # iOS-workloaden kräver en viss Xcode-version. Lista installerade och välj den högsta.
+      - name: Välj Xcode
+        shell: bash
+        run: |
+          ls -d /Applications/Xcode*.app
+          best=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -1)
+          echo "Väljer: $best"
+          [ -n "$best" ] && sudo xcode-select -s "$best/Contents/Developer"
+          xcodebuild -version
+
       # Restore utvärderar alla målramverk (Android och iOS på macOS), så båda workloads krävs även när bara iOS byggs.
       # Ett globalt -p:TargetFrameworks=... fungerar inte: det smittar projektreferenserna (net8.0).
       - name: Installera MAUI-workloads
