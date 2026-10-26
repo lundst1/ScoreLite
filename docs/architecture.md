@@ -230,17 +230,15 @@ Antalen är hämtade från `CLAUDE.md` och ändras när tester läggs till. Korp
 
 ## 10. Kända avvikelser mellan designdokument och kod
 
+Designdokumentets §7.2, §7.3, S5/§12.2 och V10/V11 uppdaterades 2026-10-26 så att de stämmer med koden. Det som fortfarande skiljer:
+
 | Designdokument | Faktiskt | Beslut |
 |---|---|---|
-| §7.2: tre projekt, `App` → `Audio` → `Core` | Fjärde projekt `App.Core` (net8.0, utan MAUI) mellan `App` och `Audio` | #21 |
-| §7.3: `ViewModels/`, `Services/` i `App` | Ligger i `App.Core`; `IFilePicker` heter `IScoreFilePicker` | #21 |
-| §7.3: filplacering i Core | `Time.cs` i roten, `PlayOrderBuilder` i `PlayOrder.cs`, `PlaybackEvent` i `EventGenerator.cs`, ingen `Diagnostics/` | #12, #14 |
-| IF-1: modell | `Score.Items` med `NotatedItem` m.fl. tillagt; `Note.Tpc/Tpc2` | #12 |
-| S5: CSP `connect-src 'none'` | `connect-src 'self'` (HybridWebView på Android) | #22 |
-| §11.2: tema följer systemet överallt | Notbilden alltid svart på vit (beslutad, ej genomförd) | #30 |
-| §16/§17: `soundfont.sf3` | `soundfont.sf2` (GeneralUser GS 2.0.3), hämtas, ej incheckad | #17, #20 |
+| IF-1 (§8.1): modell | `Score.Items` med `NotatedItem` m.fl. tillagt, och `Note.Tpc/Tpc2`. §8.1 är inte uppdaterad | #12 |
+| §11.2 och IF-5: tema | `loadScore.theme` finns kvar i protokollet men ska inte påverka notbildens papper och bläck (beslutad, ej genomförd) | #30 |
+| §9 AL-09: `click_accent.wav`, `click.wav` | Klicken är syntetiska i `Metronome.cs` | – |
+| §16 och §17: `soundfont.sf3` | `soundfont.sf2` (GeneralUser GS 2.0.3). DR-05 gäller | #17, #20 |
 | §17 punkt 8–9: arkitektur- och allokeringstest | P2-test finns i Core.Tests. Test för `App.Core` utan MAUI och för allokering saknas | – |
-| Lösningsfilen | Alla åtta projekt i `ScoreLite.sln` (ändrat 2026-10-26) | #29 |
 
 ## 11. Ordlista (för snabb orientering)
 

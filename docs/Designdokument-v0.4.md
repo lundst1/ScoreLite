@@ -115,8 +115,8 @@ Status per punkt efter genomgången av källträdet. Det som är öppet ska stä
 | V7 | Namn och attribut för repriser, voltor, hopp, marker, coda och fine. | Bekräftad | Se A13. | Taktupprepning (A15) och flera nummer i `<endings>`. |
 | V8 | Standardvelocity per dynamikmärke. | Bekräftad, förenklad | Filen bär velocityn i varje `<Dynamic>` (A12). Tabellen behövs bara som reserv. | Standardnivå när inget märke finns (DR-32 antar mf). |
 | V9 | MeltySynth stöder SF2 men inte SF3, har 16 kanaler med slagverk på kanal 10 och kan dela `SoundFont` mellan instanser. | Bekräftad delvis | MeltySynth läser SF2 men inte SF3 (källkoden). Delat `SoundFont` mellan instanser fungerar (AL-05, 17 stämmor testat). Slagverk ligger på kanal 9. | Mätning på enhet (M0b). |
-| V10 | Verovio bevarar `xml:id`, ger geometri via DOM och hanterar slagverk och tabulatur. | Öppen | Ej testat. | M0. |
-| V11 | MAUI:s `HybridWebView` eller `WebView` stöder meddelanden åt båda håll. | Öppen | Ej testat. | M0. |
+| V10 | Verovio bevarar `xml:id`, ger geometri via DOM och hanterar slagverk och tabulatur. | Delvis bekräftad (2026-10-25, decisions #24) | Verovio 6.3.0 bevarar alla `xml:id` (noter och takter) för alla 8 korpusfiler, både i Node och i riktig webbläsare. Geometri via DOM fungerar. Två varningar om bindebågar i två filer. | Slagverk och tabulatur (ritas inte, decisions #13). |
+| V11 | MAUI:s `HybridWebView` eller `WebView` stöder meddelanden åt båda håll. | Bekräftad på Android (2026-10-25, decisions #22) | `HybridWebView`: C# → JS med `SendRawMessage`, JS → C# med `HybridWebView.SendRawMessage`. På Android skickar JS → C# som same-origin `fetch`, därför `connect-src 'self'` (S5). `RawMessageReceived` kommer på en bakgrundstråd och `SendRawMessage` kräver UI-tråden. | iOS (ej provat, `docs/verification-status.md`). |
 | V12 | Lägsta OS-versioner som vald MAUI-version stöder. | Öppen | Ej kontrollerat. | MAUI-dokumentationen. |
 | V13 | Skillnader mellan formatversionerna som påverkar parsern. | Delvis bekräftad | MuseScore har separata läsare per version (A5). `README` för `rw` säger att 114–400 delar kod och att 410, 460 och 500 är kopior som utvecklats vidare. Version 5.00 är under utveckling. | Jämför 4.0, 4.1, 4.6 och 5.0 på riktiga filer. |
 | V14 | Hur 4.1 och senare skriver bindebågar (inklusive partiella och laissez vibrer), taktupprepning, trumset, tabulatur och instrumentets ljudval. | Öppen | Inga demo-filer i dessa format. | M0: skapa filer med MuseScore 4 och 5. |
@@ -158,7 +158,7 @@ Detaljer och beteenden finns i §12.
 | S2 | Storleksgränser SKA gälla: arkivet, varje post och totalt uppackad storlek (§12). |
 | S3 | XML SKA läsas med DTD-hantering avstängd. |
 | S4 | Data från filen SKA INTE skickas till JavaScript som kod. Det skickas som JSON-data. |
-| S5 | WebView SKA bara visa lokalt paketerat innehåll och SKA INTE ha nätverksåtkomst. |
+| S5 | WebView SKA bara visa lokalt paketerat innehåll och SKA INTE ha nätverksåtkomst. (CSP: se §12.2, `connect-src 'self'`.) |
 | R1 | Inget undantag från parser, synt eller brygga SKA nå användaren som en krasch. Det blir ett felmeddelande (§12). |
 | R2 | En delvis tolkbar fil SKA öppnas med varningar i stället för att avvisas (P5). |
 | R3 | Ljudet SKA inte knastra på grund av arbete i UI- eller parsertråd. Mått: noll buffertunderskott under ett 10 minuters uppspelningstest. |
@@ -255,44 +255,58 @@ Ett beslut ändras bara genom att raden här ändras. Status \[BESLUT\] är fast
 
 ### 7.2 Beroenderegler
 
-Riktning: `App` → `Audio` → `Core`. Ingen pil går åt andra hållet.
+Riktning: `App` → `App.Core` → `Audio` → `Core`. Ingen pil går åt andra hållet. (Ändrat efter v0.4: `ScoreLite.App.Core` tillagt, decisions #21. Reglerna ARCH-2.x i `docs/architecture.md` gäller.)
 
 | Projekt | Får referera till | Får INTE referera till |
 | --- | --- | --- |
 | `ScoreLite.Core` | Bara .NET-basbiblioteket (BCL). | MAUI, plattforms-API:er, WebView, `ScoreLite.Audio`, MeltySynth. |
 | `ScoreLite.Audio` | `ScoreLite.Core`, MeltySynth, BCL. | MAUI, plattforms-API:er, WebView. |
-| `ScoreLite.App` | `ScoreLite.Core`, `ScoreLite.Audio`, MAUI, CommunityToolkit.Mvvm. | Inget förbjudet. All plattformskod och all JS/Verovio-kod bor här. |
+| `ScoreLite.App.Core` | `ScoreLite.Core`, `ScoreLite.Audio`, CommunityToolkit.Mvvm, BCL. | MAUI, plattforms-API:er, WebView. Målar net8.0 så att ViewModels och bryggan kan testas utan MAUI. |
+| `ScoreLite.App` | `ScoreLite.App.Core`, `ScoreLite.Core`, `ScoreLite.Audio`, MAUI. | Inget förbjudet. All plattformskod, XAML och all JS/Verovio-kod bor här. |
 | `*.Tests` | Projektet de testar. | MAUI. |
 
 ### 7.3 Repostruktur
 
-Filnamn och mappar är normativa. Lägg inte kod på andra ställen.
+Filnamn och mappar är normativa. Lägg inte kod på andra ställen. (Uppdaterad 2026-10-26 efter hur koden faktiskt är organiserad.)
 
 ```
 /src
   ScoreLite.Core/
     Mscz/MsczReader.cs            # zip i minnet, gränser (S1, S2)
     Mscx/MscxParser.cs            # tolerant, strömmande (AL-01)
-    Model/                        # Score, Part, Staff, Note, Measure, ScorePosition, InstrumentSpan
-    Timing/Time.cs, TempoMap.cs   # ticks, frames, ms (AL-02)
-    Playback/PlayOrder.cs, PlayOrderBuilder.cs, EventGenerator.cs,
-             ChannelAllocator.cs, PlaybackEvent.cs, DynamicVelocity.cs
+    Model/Model.cs                # Score, Part, Staff, Note, Measure, NotatedItem, ScorePosition, InstrumentSpan, Diagnostic, LoadResult, IScoreLoader
+    ScoreLoader.cs                # IScoreLoader (IF-2)
+    Time.cs                       # ticks, frames, ms (AL-02)
+    Timing/TempoMap.cs
+    Playback/PlayOrder.cs         # PlayOrder och PlayOrderBuilder
+    Playback/EventGenerator.cs    # EventGenerator, PlaybackEvent, DynamicVelocity
+    Playback/ChannelAllocator.cs
     Notation/MeiExporter.cs, CursorTimelineBuilder.cs
-    Diagnostics/Diagnostic.cs
   ScoreLite.Audio/
     IAudioOutput.cs, OfflineAudioOutput.cs, RingBuffer.cs,
     SynthHost.cs, Metronome.cs, Sequencer.cs, PlaybackEngine.cs
-  ScoreLite.App/
-    Views/ ViewModels/ Services/
-    Platforms/Android/AndroidAudioOutput.cs
-    Platforms/iOS/IosAudioOutput.cs
-    Resources/Raw/wwwroot/index.html, bridge.js, verovio/
-    Resources/Raw/soundfont.sf3 (eller .sf2, DR-05), click_accent.wav, click.wav
+    MeltySynth/                   # vendrad, oförändrad (decisions #9)
+  ScoreLite.App.Core/             # net8.0, utan MAUI (decisions #21)
+    Bridge/                       # IScoreBridge, JsonScoreBridge, BridgeMessages, BridgeJson
+    Services/Services.cs          # IScoreFilePicker, IKeepAwake, ISettings, IDialogService, IAppNavigation, IAudioInterruptions
+    ViewModels/                   # ScoreViewModel, StartViewModel, ErrorMessages
+    BridgeDelayEstimator.cs, NullPlaybackEngine.cs
+  ScoreLite.App/                  # MAUI
+    Views/                        # StartPage, ScorePage, LicensesPage
+    Services/                     # AppServices.cs, PlatformAudio.cs, HybridWebViewScoreBridge.cs
+    Platforms/Android/            # AndroidAudioOutput, AndroidAudioSession, MainActivity
+    Platforms/iOS/                # IosAudioOutput (+ IosAudioSession), AppDelegate
+    Resources/Raw/wwwroot/        # index.html, style.css, bridge.js, bridge-core.js, verovio/
+    Resources/Raw/soundfont.sf2   # hämtas av tools/fetch-soundfont.sh, checkas inte in (DR-05, decisions #17)
 /tests
-  ScoreLite.Core.Tests/  ScoreLite.Audio.Tests/  corpus/
+  ScoreLite.Core.Tests/  ScoreLite.Audio.Tests/  ScoreLite.App.Tests/  web/  verovio-t6/
+/corpus                           # 8 egna MuseScore 4-filer
 /docs
-  format-notes.md   decisions.md   device-checklist.md
+  architecture.md   Designdokument-v0.4.md   decisions.md   device-checklist.md
+  verification-status.md   dev-environment.md   format-notes.md   legal-review.md
 ```
+
+Metronomens klick är syntetiska (`Metronome.cs`, DR-17). `click_accent.wav` och `click.wav` används inte.
 
 ### 7.4 Trådar och klockdomäner
 
@@ -805,7 +819,7 @@ Gränserna kontrolleras under läsning med en räknande ström. Överskrids en g
 - **Ingen uppackning till disk (S1):** ZIP-poster läses direkt ur arkivet. Postnamn används aldrig som sökväg.
 - **Filåtkomst (DR-27):** filen läses en gång till minnet och filhandtaget släpps. På iOS hålls security-scoped åtkomst bara under läsningen.
 - **Brygga (S4):** all data till JS är JSON. Ingen sträng från filen sätts ihop till kod. Not-id och takt-id som JS tar emot behandlas som data.
-- **WebView (S5):** `index.html` laddas från appens paketerade resurser. Sidan har en Content-Security-Policy utan nätverk (`connect-src 'none'`) och endast det som Verovios WASM kräver, till exempel `'wasm-unsafe-eval'` (V11). Ingen navigering bort från appens innehåll.
+- **WebView (S5):** `index.html` laddas från appens paketerade resurser. Sidan har en Content-Security-Policy utan externt nätverk och endast det som Verovios WASM kräver, till exempel `'wasm-unsafe-eval'` (V11). `connect-src 'self'` behövs för att `HybridWebView` ska kunna skicka meddelanden till C# på Android (same-origin `fetch` mot appens egen virtuella värd, decisions #22). Appen har ingen INTERNET-behörighet. Ingen navigering bort från appens innehåll.
 - **Integritet (P1, DR-14, DR-25):** inga nätverksbehörigheter i manifest eller `Info.plist`, ingen telemetri. Bara inställningar sparas, aldrig partituren. Lokal logg får finnas, högst 1 MB, och innehåller aldrig filinnehåll eller filnamn.
 - **Parsern kastar inte (R1):** alla undantag i laddningen fångas i `IScoreLoader` och blir `Diagnostic` eller ett fatalt `LoadResult`.
 
@@ -954,6 +968,16 @@ Dessa källor har lästs. Påståenden om MeltySynth, Verovio och MAUI:s webbvy 
 - Filtypsbeskrivning för `.mscz`: https://fileinfo.com/extension/mscz
 
 ## 20. Ändringslogg
+
+### Ändringar efter v0.4 (2026-10-26, löpande, bakgrund i decisions.md)
+
+| Ändring | Var |
+| --- | --- |
+| `ScoreLite.App.Core` tillagt som eget projekt. Beroenderiktning och repostruktur uppdaterade till hur koden är byggd. | §7.2, §7.3, decisions #21 |
+| `connect-src 'self'` i CSP (HybridWebView på Android). | S5, §12.2, decisions #22 |
+| V10 och V11 uppdaterade: Verovio bevarar `xml:id`, `HybridWebView`-bryggan bekräftad på Android. | §4.2, decisions #22–24 |
+| Notbilden ritas alltid svart på vit bakgrund oavsett tema. | §11.2, decisions #30 |
+| Ljudfont: GeneralUser GS 2.0.3 (SF2), hämtas och checkas inte in. | DR-05, decisions #17, #20 |
 
 ### Ändringar i v0.4 (efter genomgång av MuseScores källträd)
 

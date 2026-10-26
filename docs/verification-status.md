@@ -92,6 +92,5 @@
 | Batterimål (Q6) | **Ej beslutat** | designdokument §18 |
 
 ## 7. Dokumentation som är känd inaktuell
-- Designdokumentets V-register (§4.2): V10 och V11 står som "Öppen" men är bekräftade (decisions #22–24). V12 (lägsta OS) är ej kontrollerad.
-- Designdokumentets §7.2/§7.3 beskriver tre projekt och en annan filplacering än koden (se `docs/architecture.md` §10).
-- Designdokumentets S5 (CSP `connect-src 'none'`) är överstyrd av decisions #22.
+Åtgärdat 2026-10-26: designdokumentets V10/V11 (§4.2), S5 och §12.2 (CSP `connect-src 'self'`), §7.2 och §7.3 (projekt och filplacering) och ändringsloggen (§20).
+Kvar: V12 (lägsta OS-versioner) är ej kontrollerad. Övriga V-rader (V3, V4, V5, V13, V14) har öppna delar enligt §4.2. AL-09 (§9) nämner fortfarande `click_accent.wav` och `click.wav` i text, men klicken är syntetiska. IF-1 (§8.1) saknar `Score.Items`.
