@@ -1,4 +1,16 @@
+# Bygg
 bin/
 obj/
+dist/
 *.user
 .vs/
+
+# Node (tests/web, tests/verovio-t6)
+node_modules/
+
+# Ljudfont: hämtas av tools/fetch-soundfont.sh (decisions #17)
+src/ScoreLite.App/Resources/Raw/soundfont.sf2
+
+# Övrigt
+*.log
+.DS_Store
