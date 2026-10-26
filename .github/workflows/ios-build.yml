@@ -12,6 +12,12 @@ jobs:
   ios-simulator-build:
     runs-on: macos-latest
     timeout-minutes: 60
+    # Workload-setet bestämmer iOS SDK-versionen, som kräver en viss Xcode. Runnern har högst Xcode 26.6,
+    # medan setet 10.0.403 kräver Xcode 27.1. Prova äldre set tills ett matchar.
+    strategy:
+      fail-fast: false
+      matrix:
+        workload-set: ['10.0.402', '10.0.401', '10.0.400']
     steps:
       - uses: actions/checkout@v4
 
@@ -46,7 +52,7 @@ jobs:
       # Restore utvärderar alla målramverk (Android och iOS på macOS), så båda workloads krävs även när bara iOS byggs.
       # Ett globalt -p:TargetFrameworks=... fungerar inte: det smittar projektreferenserna (net8.0).
       - name: Installera MAUI-workloads
-        run: dotnet workload install maui-ios maui-android
+        run: dotnet workload install maui-ios maui-android --version ${{ matrix.workload-set }}
 
       - name: Enhetstester (net8.0)
         shell: bash
@@ -82,7 +88,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ios-build-log
+          name: ios-build-log-${{ matrix.workload-set }}
           path: |
             build.log
             test-*.log
