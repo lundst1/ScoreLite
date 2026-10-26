@@ -16,7 +16,8 @@
 |---|---|---|
 | Öppna med, rendering, uppspelning, pekare, följ-läge, startmarkör, stämmapanel | Emulator | decisions #25 |
 | Uppspelning med hörbart ljud | Ägaren, telefon (utan mätvärden) | 2026-10-26 |
-| Filväljaren (knappen "Öppna fil"), avmarkera stämmor, zoom, rotation, metronom, inräkning | **Ej provat** för hand | device-checklist |
+| Filväljaren, avmarkera/markera stämmor, rotation, metronom, inräkning | Ägaren, telefon (fungerar, 2026-10-26). Utan mätvärden | device-checklist |
+| Zoom (UI-8: fem steg, knappar eller nyp) | **Saknas i UI.** Logik och brygga finns och är testade, men ingen knapp eller gest är kopplad | device-checklist |
 | Ljudets kvalitet och tidsåtgång på enhet | **Ej provat** (inga mätvärden) | decisions #25 |
 | R3: 10 min utan buffertunderskott | **Ej provat** | device-checklist |
 | F7: pekaravvikelse ≤ 50 ms | **Ej provat** | device-checklist |

@@ -8,7 +8,11 @@ Fylls i på riktiga enheter. Emulatorn (Pixel 6, API 35) har bara använts för 
 - [x] Notbilden ritas av Verovio i `HybridWebView`, med stämnamn och flera system.
 - [x] Spela: knappen byter till paus, pekaren rör sig, vyn följer.
 - [x] Tryck på en not sätter startmarkören (flaggan syns). Stämmor-panelen öppnas med en kryssruta per stämma.
-- [ ] Filväljaren (knappen ”Öppna fil”), avmarkera stämmor, zoom, rotation, metronom/inräkning: ej provat för hand.
+- [x] Filväljaren (knappen ”Öppna fil”): fungerar (ägaren, telefon, 2026-10-26).
+- [x] Avmarkera och markera stämmor: fungerar (ägaren, telefon, 2026-10-26).
+- [x] Rotation: fungerar (ägaren, telefon, 2026-10-26). Under uppspelning ej separat angivet.
+- [x] Metronom och inräkning: fungerar (ägaren, telefon, 2026-10-26).
+- [ ] **Zoom: saknas i gränssnittet.** UI-8 kräver knappar eller nyp, men det finns ingen knapp eller gest. Logiken (`ZoomIn`/`ZoomOut`, `setZoom`) finns och är testad utan UI.
 
 ## Provat av ägaren på riktig Android-telefon (2026-10-26)
 - [x] Uppspelning med ljud fungerar (ej mätt, inga siffror för R3/F6/F7).
