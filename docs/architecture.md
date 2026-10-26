@@ -226,7 +226,7 @@ Antalen är hämtade från `CLAUDE.md` och ändras när tester läggs till. Korp
 - Avviker du från §5–§9 i designdokumentet: logga i `decisions.md` med datum, val och skäl innan koden checkas in (§17 punkt 12), och uppdatera detta dokument. **Kräver utvecklarens godkännande (ARCH-0.3).**
 - Lägger du till, flyttar eller tar bort en fil/typ som nämns i §3: uppdatera tabellen.
 - Ändrar du testantal: uppdatera `CLAUDE.md` och §7.
-- Ändrar du status för iOS, enhetsmätningar eller juridik: uppdatera `CLAUDE.md` ("Öppet / ej gjort") och `docs/device-checklist.md`.
+- Ändrar du status för iOS, enhetsmätningar eller juridik: uppdatera `docs/verification-status.md`, `CLAUDE.md` ("Öppet / ej gjort") och `docs/device-checklist.md`.
 
 ## 10. Kända avvikelser mellan designdokument och kod
 

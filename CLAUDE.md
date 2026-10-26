@@ -24,6 +24,7 @@ Tester (egna testlöpare, ingen xunit). Korpus: `corpus/` (8 egna MuseScore 4-fi
 - Android: `dotnet build src/ScoreLite.App -f net10.0-android` (användarlokal SDK 10, se dev-environment.md). Emulator: AVD `scorelite` (`ANDROID_AVD_HOME=C:\Users\ricka\tools\avd`).
 
 ## Öppet / ej gjort
+Fullständig lista över vad som är provat och inte: `docs/verification-status.md` (påstå aldrig att något ej provat fungerar).
 - **Issue (decisions #30):** notbilden ska alltid vara svart på vit bakgrund, även i mörkt tema. Dokumenterat, ej genomfört i `style.css`/`bridge.js`/webbtestet.
 - Uppspelning med ljud är provad av ägaren på riktig Android-telefon (2026-10-26); siffror för R3/F7/F6 saknas fortfarande.
 - **Enhet:** R3 (10 min utan underskott), F7 (≤50 ms), F6 (≤300 ms), N2 (APK 50,6 MB arm64 utan trimning, på gränsen), kallstart, minne. Mät på telefon (M0b).

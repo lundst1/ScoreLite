@@ -32,5 +32,5 @@ src/ScoreLite.Audio/   ringbuffert, synt, sequencer, motor
 src/ScoreLite.App.Core/ ViewModels, brygga (utan MAUI)
 src/ScoreLite.App/     MAUI-app (Android; iOS bara på Mac)
 tests/                 Core.Tests, Audio.Tests, App.Tests (konsolbaserade), web, verovio-t6
-docs/                  architecture.md (börja här), Designdokument-v0.4.md, decisions.md, dev-environment.md, device-checklist.md, legal-review.md, format-notes.md
+docs/                  architecture.md (börja här), verification-status.md (vad som är provat), Designdokument-v0.4.md, decisions.md, dev-environment.md, device-checklist.md, legal-review.md, format-notes.md
 ```
