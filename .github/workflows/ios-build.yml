@@ -39,12 +39,9 @@ jobs:
         shell: bash
         continue-on-error: true
         run: |
-          echo "::notice title=Xcode installerade::$(ls -d /Applications/Xcode*.app | tr '
-' ' ')"
-          echo "::notice title=Xcode aktiv::$(xcodebuild -version | tr '
-' ' ')"
-          echo "::notice title=Workload-set::$(dotnet workload search version --take 12 2>&1 | tr '
-' ' ' | cut -c1-900)"
+          echo "::notice title=Xcode installerade::$(ls -d /Applications/Xcode*.app | paste -sd' ' -)"
+          echo "::notice title=Xcode aktiv::$(xcodebuild -version | paste -sd' ' -)"
+          echo "::notice title=Workload-set::$(dotnet workload search version --take 12 2>&1 | paste -sd' ' - | cut -c1-900)"
 
       # Restore utvärderar alla målramverk (Android och iOS på macOS), så båda workloads krävs även när bara iOS byggs.
       # Ett globalt -p:TargetFrameworks=... fungerar inte: det smittar projektreferenserna (net8.0).
