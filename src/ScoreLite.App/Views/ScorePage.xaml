@@ -27,7 +27,7 @@
 
         <!-- Notbilden (UI-8) -->
         <Grid Grid.Row="2">
-            <HybridWebView x:Name="Web" HybridRoot="wwwroot" DefaultFile="index.html"
+            <HybridWebView x:Name="Web" HybridRoot="wwwroot" DefaultFile="index.html" BackgroundColor="White"
                            SizeChanged="OnWebSizeChanged" SemanticProperties.Description="Notbild" />
             <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" HorizontalOptions="Center" VerticalOptions="Center" />
 

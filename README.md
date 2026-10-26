@@ -9,7 +9,7 @@ Mobil uppspelare för MuseScore-filer (.mscz) i .NET MAUI. Specifikation: design
 | M0 spikes | Delvis. Filformatet, Verovio (6.3.0) och MAUI-bryggan (`HybridWebView`) verifierade. Mätningar på enhet (M0b) återstår. |
 | M1 Core | Delvis. Läsare, parser (2.06 och 3.01+), modell, tempokarta, spelordning och händelsegenerering klara och testade mot elva riktiga partitur. |
 | M2 Audio | Klar i kod: ringbuffert, metronom, sequencer, motor, vendrad MeltySynth, 44 tester. Ljudfont GeneralUser GS vald (K14/Q4). Enhetsmätningar återstår. |
-| M3–M5 | Android-appen fungerar i emulator och uppspelning är provad på riktig telefon (öppna, rita, spela, pekare). Känd issue: noter svarta på mörk bakgrund i mörkt tema (decisions #30). iOS skriven men ej byggd. Enhetsmätningar återstår (`docs/device-checklist.md`). |
+| M3–M5 | Android-appen fungerar i emulator och uppspelning är provad på riktig telefon (öppna, rita, spela, pekare). Notbilden är alltid svart på vitt, även i mörkt tema (decisions #30, ej provat på telefon). iOS skriven men ej byggd. Enhetsmätningar återstår (`docs/device-checklist.md`). |
 | M6 | Ej påbörjad (juridik, release). |
 
 ## Bygga och testa

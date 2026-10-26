@@ -169,7 +169,7 @@ Transport: C# → JS med `HybridWebView.SendRawMessage` (JSON-sträng till `wind
 - **ARCH-5.2** En ändring av meddelandefält kräver samtidig ändring av: `BridgeMessages.cs`, `BridgeJson.cs`, `bridge.js`/`bridge-core.js`, `tests/web/*.mjs`, `tests/ScoreLite.App.Tests` och designdokument §8.5. Höj `v` vid brytande ändring.
 - **ARCH-5.3** Noters identitet i MEI och SVG är `Note.Id` (`xml:id`). Verovio bevarar dem (V10, decisions #24). Ändra inte id-schemat utan godkännande.
 - **ARCH-5.4** JS sköter bara rendering, pekare och tryck. Ingen musiklogik (tempo, spelordning) i JS.
-- **ARCH-5.5 (tema, decisions #30):** notbilden ritas alltid svart på vit bakgrund. `loadScore.theme` ändrar inte papper och bläck. *Status: beslutad men ej genomförd i kod.*
+- **ARCH-5.5 (tema, decisions #30):** notbilden ritas alltid svart på vit bakgrund. `loadScore.theme` ändrar inte papper och bläck. *Status: genomförd 2026-10-26 (`style.css`, `index.html`, `ScorePage.xaml`, webbtest). Ej provad på telefon.*
 
 ## 6. Dataflöde
 
@@ -194,7 +194,7 @@ Avbrott:     IAudioInterruptions.Interrupted ─► ScoreViewModel ─► Pause 
 | Audio | `dotnet run --project tests/ScoreLite.Audio.Tests` (Release + `SCORELITE_SOUNDFONT` ger 53) | 44 |
 | App.Core (ViewModels, brygga) | `dotnet run --project tests/ScoreLite.App.Tests` | 40 |
 | JS-logik | `node tests/web/core.test.mjs` | 6 |
-| JS i riktig webbläsare | `node tests/web/test.mjs <mei-mapp>` | 45 |
+| JS i riktig webbläsare | `node tests/web/test.mjs <mei-mapp>` | 48 |
 | MEI-mapp | `dotnet run --project tests/verovio-t6/MeiDump -- corpus <mapp>` | – |
 | Android-bygge | `dotnet build src/ScoreLite.App -f net10.0-android` | – |
 | iOS-kompilering (CI, macOS) | `.github/workflows/ios-build.yml`: net8.0-testerna + `dotnet build -f net10.0-ios` mot simulator, utan signering (decisions #32) | – |
@@ -213,7 +213,7 @@ Antalen är hämtade från `CLAUDE.md` och ändras när tester läggs till. Korp
 | Ljudutgång (plattform) | IF-4, R3, F7, `PlatformAudio.cs`, `docs/device-checklist.md` | Android-bygge, mätning på enhet |
 | Brygga / JS | ARCH-5.2, IF-5, AL-12, AL-13, decisions #22–23 | App.Tests, `tests/web` |
 | MEI-export | V10, decisions #13, #24 | MeiDump + `tests/web/test.mjs` |
-| Notbildens utseende/tema | ARCH-5.5, decisions #30, designdokument §11.2 | `tests/web/test.mjs` (rad ~192–194 ska ändras) |
+| Notbildens utseende/tema | ARCH-5.5, decisions #30, designdokument §11.2 | `tests/web/test.mjs` |
 | ViewModels | §11.3, UI-x, `ScorePage.xaml.cs` | App.Tests |
 | Tjänstegränssnitt | `Services.cs`, `MauiProgram.cs`, `AppServices.cs`, plattformsklasser | App.Tests, Android-bygge |
 | Projektreferenser / TFM | §2 (ARCH-2.x), `dev-environment.md`, `ScoreLite.sln` | Alla tester |
@@ -235,7 +235,7 @@ Designdokumentets §7.2, §7.3, S5/§12.2 och V10/V11 uppdaterades 2026-10-26 s�
 | Designdokument | Faktiskt | Beslut |
 |---|---|---|
 | IF-1 (§8.1): modell | `Score.Items` med `NotatedItem` m.fl. tillagt, och `Note.Tpc/Tpc2`. §8.1 är inte uppdaterad | #12 |
-| §11.2 och IF-5: tema | `loadScore.theme` finns kvar i protokollet men ska inte påverka notbildens papper och bläck (beslutad, ej genomförd) | #30 |
+| §11.2 och IF-5: tema | `loadScore.theme` finns kvar i protokollet men påverkar inte notbildens papper och bläck (alltid svart på vitt) | #30 |
 | §9 AL-09: `click_accent.wav`, `click.wav` | Klicken är syntetiska i `Metronome.cs` | – |
 | §16 och §17: `soundfont.sf3` | `soundfont.sf2` (GeneralUser GS 2.0.3). DR-05 gäller | #17, #20 |
 | §17 punkt 8–9: arkitektur- och allokeringstest | P2-test finns i Core.Tests. Test för `App.Core` utan MAUI och för allokering saknas | – |

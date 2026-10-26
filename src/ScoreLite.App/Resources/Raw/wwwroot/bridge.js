@@ -60,6 +60,7 @@
 
   function viewportWidth() { return Math.max(200, document.documentElement.clientWidth || window.innerWidth || 400); }
 
+  // Temat sparas som attribut men påverkar inte utseendet: notbilden är alltid svart på vitt (decisions #30).
   function applyTheme(theme) { document.body.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light'); }
 
   function render() {

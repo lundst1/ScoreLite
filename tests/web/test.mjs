@@ -191,7 +191,16 @@ try {
   check('okända och trasiga meddelanden ignoreras utan fel', t.problems.filter(p => p.startsWith('pageerror')).length === 0, t.problems.join('\n'));
   await t.send({ t: 'loadScore', requestId: 8, mei: nocturne, viewportWidthPx: 420, zoomLevel: 2, theme: 'dark' });
   await t.waitFor(m => m.t === 'layoutReady' && m.requestId === 8, 'layoutReady dark');
-  check('mörkt tema sätts', await t.page.evaluate(() => document.body.dataset.theme === 'dark'));
+  check('mörkt tema sätts som attribut', await t.page.evaluate(() => document.body.dataset.theme === 'dark'));
+  // decisions #30: notbilden är alltid svart på vitt, även i mörkt tema.
+  const dark = await t.page.evaluate(() => {
+    const cs = getComputedStyle(document.body);
+    const svg = document.querySelector('#score svg');
+    return { bg: cs.backgroundColor, ink: svg ? getComputedStyle(svg).color : null, scheme: getComputedStyle(document.documentElement).colorScheme };
+  });
+  check('mörkt tema: vit bakgrund', dark.bg === 'rgb(255, 255, 255)', dark.bg);
+  check('mörkt tema: svart bläck', dark.ink === 'rgb(0, 0, 0)', dark.ink);
+  check('mörkt tema: color-scheme only light', /only/.test(dark.scheme) && /light/.test(dark.scheme), dark.scheme);
   t.sent.length = 0;
   await t.page.setViewport({ width: 820, height: 420 });
   const re = await t.waitFor(m => m.t === 'layoutReady', 'omlayout vid rotation', 4000).catch(() => null);

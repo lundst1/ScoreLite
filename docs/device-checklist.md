@@ -12,7 +12,7 @@ Fylls i på riktiga enheter. Emulatorn (Pixel 6, API 35) har bara använts för 
 
 ## Provat av ägaren på riktig Android-telefon (2026-10-26)
 - [x] Uppspelning med ljud fungerar (ej mätt, inga siffror för R3/F6/F7).
-- [ ] **Issue:** mörkt systemtema ger svarta noter på mörk bakgrund som syns dåligt. Ska åtgärdas enligt decisions.md #30 (notbilden alltid svart på vitt). Kontrollera på telefon efter åtgärd.
+- [ ] **Åtgärdat i kod 2026-10-26, ej kontrollerat på telefon:** mörkt systemtema gav svarta noter på mörk bakgrund. Notbilden är nu alltid svart på vitt (decisions.md #30). Kontrollera i mörkt tema: vit notbild, synlig pekare och startmarkör, ingen mörk blixt vid laddning.
 
 ## Att göra på enhet
 | Punkt | Krav | Resultat |

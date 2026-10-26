@@ -1,5 +1,6 @@
-:root { --paper: #ffffff; --ink: #111111; --cursor: rgba(0, 110, 255, 0.85); --marker: #d9480f; }
-body[data-theme="dark"] { --paper: #121212; --ink: #e8e8e8; --cursor: rgba(120, 180, 255, 0.9); --marker: #ff922b; }
+/* Notbilden är alltid svart på vitt, oavsett systemtema (decisions #30, ARCH-5.5). `theme` i loadScore påverkar inte detta.
+   `color-scheme: only light` hindrar webbvyn från att tvångsmörka sidan. */
+:root { color-scheme: only light; --paper: #ffffff; --ink: #000000; --cursor: rgba(0, 110, 255, 0.85); --marker: #d9480f; }
 
 html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; }
 body { overscroll-behavior: contain; -webkit-tap-highlight-color: transparent; }

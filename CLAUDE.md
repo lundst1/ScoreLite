@@ -20,12 +20,12 @@ Tester (egna testlöpare, ingen xunit). Korpus: `corpus/` (8 egna MuseScore 4-fi
 - `dotnet run --project tests/ScoreLite.Core.Tests` – 56
 - `dotnet run --project tests/ScoreLite.Audio.Tests` – 44 (53 med `SCORELITE_SOUNDFONT=<GeneralUser-GS.sf2>`, Release)
 - `dotnet run --project tests/ScoreLite.App.Tests` – 40
-- `tests/web`: `node core.test.mjs` (6) och `node test.mjs <mei-mapp>` (45, riktig Chrome/Edge). MEI-mapp: `dotnet run --project tests/verovio-t6/MeiDump -- corpus <mapp>`. `tests/verovio-t6/run.mjs` = Verovio i Node.
+- `tests/web`: `node core.test.mjs` (6) och `node test.mjs <mei-mapp>` (48, riktig Chrome/Edge). MEI-mapp: `dotnet run --project tests/verovio-t6/MeiDump -- corpus <mapp>`. `tests/verovio-t6/run.mjs` = Verovio i Node.
 - Android: `dotnet build src/ScoreLite.App -f net10.0-android` (användarlokal SDK 10, se dev-environment.md). Emulator: AVD `scorelite` (`ANDROID_AVD_HOME=C:\Users\ricka\tools\avd`).
 
 ## Öppet / ej gjort
 Fullständig lista över vad som är provat och inte: `docs/verification-status.md` (påstå aldrig att något ej provat fungerar).
-- **Issue (decisions #30):** notbilden ska alltid vara svart på vit bakgrund, även i mörkt tema. Dokumenterat, ej genomfört i `style.css`/`bridge.js`/webbtestet.
+- **Mörkt tema (decisions #30):** notbilden är nu alltid svart på vit bakgrund (kod och webbtest klara). Ej provad på telefon.
 - Uppspelning med ljud är provad av ägaren på riktig Android-telefon (2026-10-26); siffror för R3/F7/F6 saknas fortfarande.
 - **Enhet:** R3 (10 min utan underskott), F7 (≤50 ms), F6 (≤300 ms), N2 (APK 50,6 MB arm64 utan trimning, på gränsen), kallstart, minne. Mät på telefon (M0b).
 - **iOS:** koden kompilerar i CI (`.github/workflows/ios-build.yml`, simulator, decisions #32–34). Ej provad: ljud, latens, avbrott och ”Öppna med” på riktig iPhone (`IosAudioOutput`, `IosAudioSession`, `AppDelegate.OpenUrl`, `Info.plist`). CI-bygget är beroende av runnerns Xcode-version och ett fast workload-set, se decisions #34.
