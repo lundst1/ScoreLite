@@ -37,9 +37,24 @@ jobs:
           dotnet run --project tests/ScoreLite.App.Tests -c Release
 
       - name: Bygg iOS (simulator, utan signering)
-        run: >
-          dotnet build src/ScoreLite.App/ScoreLite.App.csproj
-          -f net10.0-ios -c Debug
-          -p:RuntimeIdentifier=iossimulator-arm64
-          -p:EnableCodeSigning=false
-          -p:CodesignRequireProvisioningProfile=false
+        shell: bash
+        run: |
+          set +e
+          dotnet build src/ScoreLite.App/ScoreLite.App.csproj             -f net10.0-ios -c Debug             -p:RuntimeIdentifier=iossimulator-arm64             -p:EnableCodeSigning=false             -p:CodesignRequireProvisioningProfile=false             -bl:build.binlog 2>&1 | tee build.log
+          code=${PIPESTATUS[0]}
+          if [ "$code" -ne 0 ]; then
+            # Lyft fram felen som annoteringar så att de syns utan att öppna hela loggen.
+            grep -E "error [A-Za-z]+[0-9]*:|: error " build.log | sort -u | head -20 | while IFS= read -r line; do
+              echo "::error::${line:0:900}"
+            done
+          fi
+          exit $code
+
+      - name: Spara bygglogg
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build-log
+          path: |
+            build.log
+            build.binlog
