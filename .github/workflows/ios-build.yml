@@ -34,10 +34,12 @@ jobs:
           dotnet run --project tests/ScoreLite.Audio.Tests -c Release
           dotnet run --project tests/ScoreLite.App.Tests -c Release
 
+      # TargetFrameworks åsidosätts så att restore inte kräver Android-workloaden (projektet målar både Android och iOS på macOS).
       - name: Bygg iOS (simulator, utan signering)
         run: >
           dotnet build src/ScoreLite.App/ScoreLite.App.csproj
           -f net10.0-ios -c Debug
+          -p:TargetFrameworks=net10.0-ios
           -p:RuntimeIdentifier=iossimulator-arm64
           -p:EnableCodeSigning=false
           -p:CodesignRequireProvisioningProfile=false
