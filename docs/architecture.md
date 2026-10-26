@@ -124,7 +124,7 @@ Avvikelser: `Score.Items` bär skriven notation (decisions #12). Filplaceringen 
 | `Services/PlatformAudio.cs` | Väljer plattformens `IAudioOutput` och `IAudioInterruptions` via `#if ANDROID/IOS` |
 | `Services/HybridWebViewScoreBridge.cs` | `JsonScoreBridge` över `HybridWebView`. All sändning via `MainThread` |
 | `Platforms/Android/` | `AndroidAudioOutput` (AudioTrack), `AndroidAudioSession`, `MainActivity` (intent "Öppna med") |
-| `Platforms/iOS/` | `IosAudioOutput`, `IosAudioSession`, `AppDelegate.OpenUrl`. **Aldrig kompilerat** (decisions #26) |
+| `Platforms/iOS/` | `IosAudioOutput`, `IosAudioSession`, `AppDelegate.OpenUrl`. Kompilerar i CI (decisions #34), aldrig körd på enhet |
 | `Resources/Raw/wwwroot/` | `index.html`, `style.css`, `bridge.js`, `bridge-core.js`, `verovio/` (6.3.0, LGPL). Allt notbildsrelaterat JS bor här |
 | `MauiProgram.cs` | DI-registrering. Tjänster som singletons, ViewModels/sidor som transient |
 
@@ -199,7 +199,7 @@ Avbrott:     IAudioInterruptions.Interrupted ─► ScoreViewModel ─► Pause 
 | Android-bygge | `dotnet build src/ScoreLite.App -f net10.0-android` | – |
 | iOS-kompilering (CI, macOS) | `.github/workflows/ios-build.yml`: net8.0-testerna + `dotnet build -f net10.0-ios` mot simulator, utan signering (decisions #32) | – |
 
-Antalen är hämtade från `CLAUDE.md` och ändras när tester läggs till. Korpus: `corpus/` (8 egna filer). Inget test täcker iOS-koden, UI eller prestanda på enhet (se `docs/device-checklist.md`).
+Antalen är hämtade från `CLAUDE.md` och ändras när tester läggs till. Korpus: `corpus/` (8 egna filer). CI kompilerar iOS-koden men inget test kör den, och inget täcker UI eller prestanda på enhet (se `docs/device-checklist.md`).
 
 ## 8. Ändringskarta (vad berörs om jag ändrar X)
 

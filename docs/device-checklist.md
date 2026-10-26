@@ -27,4 +27,4 @@ Fylls i på riktiga enheter. Emulatorn (Pixel 6, API 35) har bara använts för 
 | Installationsstorlek per arkitektur | N2: högst 50 MB (nu 50,6 MB utan trimning) | |
 | Kallstart | högst 2 s | |
 | Tillgänglighet (TalkBack/VoiceOver, stor text) | N4: etiketter och 44 dp | |
-| iPhone: bygg och kör | allt ovan, plus `IosAudioOutput` | **ej byggt** |
+| iPhone: bygg och kör | allt ovan, plus `IosAudioOutput` | kompilerar i CI (simulator, 2026-10-26). **Ej körd på simulator eller enhet** |

@@ -27,7 +27,7 @@ Tester (egna testlöpare, ingen xunit). Korpus: `corpus/` (8 egna MuseScore 4-fi
 - **Issue (decisions #30):** notbilden ska alltid vara svart på vit bakgrund, även i mörkt tema. Dokumenterat, ej genomfört i `style.css`/`bridge.js`/webbtestet.
 - Uppspelning med ljud är provad av ägaren på riktig Android-telefon (2026-10-26); siffror för R3/F7/F6 saknas fortfarande.
 - **Enhet:** R3 (10 min utan underskott), F7 (≤50 ms), F6 (≤300 ms), N2 (APK 50,6 MB arm64 utan trimning, på gränsen), kallstart, minne. Mät på telefon (M0b).
-- **iOS:** CI-workflow `.github/workflows/ios-build.yml` finns (decisions #32), ej körd än. Kompilera och prova `IosAudioOutput`, `IosAudioSession`, `AppDelegate.OpenUrl`, `Info.plist`.
+- **iOS:** koden kompilerar i CI (`.github/workflows/ios-build.yml`, simulator, decisions #32–34). Ej provad: ljud, latens, avbrott och ”Öppna med” på riktig iPhone (`IosAudioOutput`, `IosAudioSession`, `AppDelegate.OpenUrl`, `Info.plist`). CI-bygget är beroende av runnerns Xcode-version och ett fast workload-set, se decisions #34.
 - **Juridik (DR-17):** `docs/legal-review.md` är ej gjord (ljudfontens sampelursprung, Verovio/LGPL på iOS, MuseScore-varumärket, MeltySynth-filerna).
 - MeltySynth är hämtad från `main`, inte en fast tagg (decisions #9).
 - Bindebågar: Verovio varnar för två filer (decisions #24).

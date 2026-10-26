@@ -1,4 +1,4 @@
-﻿// OVERIFIERAD på iOS (kan inte kompileras i utvecklingsmiljön). Se docs/device-checklist.md.
+﻿// Kompilerar i CI (macOS, decisions #34). Beteendet på iPhone är OVERIFIERAT: se docs/device-checklist.md.
 using Foundation;
 using ScoreLite.App.Services;
 using UIKit;

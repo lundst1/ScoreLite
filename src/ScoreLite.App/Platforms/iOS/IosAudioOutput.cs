@@ -1,5 +1,4 @@
-// OVERIFIERAD: den här filen kan inte kompileras i utvecklingsmiljön (kräver macOS/Xcode). Skriven mot AVFoundation-API:erna i
-// .NET för iOS och ska byggas och provas på en iPhone i M0(b). Se docs/device-checklist.md.
+// Kompilerar i CI (macOS, decisions #34). Ljud, latens och avbrott är OVERIFIERADE på riktig iPhone (M0b, docs/device-checklist.md).
 using AudioToolbox;
 using AVFoundation;
 using Foundation;
