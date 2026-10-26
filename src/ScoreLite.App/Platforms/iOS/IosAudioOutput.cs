@@ -30,7 +30,7 @@ public sealed unsafe class IosAudioOutput : IAudioOutput
         _ring = source;
 
         var session = AVAudioSession.SharedInstance();
-        session.SetCategory(AVAudioSessionCategory.Playback, out NSError? catError);
+        var catError = session.SetCategory(AVAudioSessionCategory.Playback);
         if (catError != null) throw new InvalidOperationException(catError.LocalizedDescription);
         session.SetPreferredIOBufferDuration(0.01, out _);
         session.SetActive(true, out NSError? activeError);
@@ -46,7 +46,7 @@ public sealed unsafe class IosAudioOutput : IAudioOutput
             throw new InvalidOperationException(startError?.LocalizedDescription ?? "AVAudioEngine startade inte");
     }
 
-    private int Render(bool isSilence, AudioToolbox.AudioTimeStamp timestamp, uint frameCount, ref AudioBuffers outputData)
+    private int Render(ref bool isSilence, ref AudioToolbox.AudioTimeStamp timestamp, uint frameCount, ref AudioBuffers outputData)
     {
         var ring = _ring;
         var buf = outputData[0];
@@ -81,16 +81,13 @@ public sealed class IosAudioSession : IAudioInterruptions, IDisposable
 
     public IosAudioSession()
     {
-        var center = NSNotificationCenter.DefaultCenter;
-        _interruption = center.AddObserver(AVAudioSession.InterruptionNotification, n =>
+        _interruption = AVAudioSession.Notifications.ObserveInterruption((_, e) =>
         {
-            var type = (AVAudioSessionInterruptionType)(n.UserInfo?[AVAudioSession.InterruptionTypeKey] as NSNumber)!.UInt32Value;
-            if (type == AVAudioSessionInterruptionType.Began) Interrupted?.Invoke();
+            if (e.InterruptionType == AVAudioSessionInterruptionType.Began) Interrupted?.Invoke();
         });
-        _route = center.AddObserver(AVAudioSession.RouteChangeNotification, n =>
+        _route = AVAudioSession.Notifications.ObserveRouteChange((_, e) =>
         {
-            var reason = (AVAudioSessionRouteChangeReason)(n.UserInfo?[AVAudioSession.RouteChangeReasonKey] as NSNumber)!.UInt32Value;
-            if (reason == AVAudioSessionRouteChangeReason.OldDeviceUnavailable) Interrupted?.Invoke();   // hörlurar utdragna
+            if (e.Reason == AVAudioSessionRouteChangeReason.OldDeviceUnavailable) Interrupted?.Invoke();   // hörlurar utdragna
         });
     }
 
