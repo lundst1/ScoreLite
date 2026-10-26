@@ -197,6 +197,7 @@ Avbrott:     IAudioInterruptions.Interrupted ─► ScoreViewModel ─► Pause 
 | JS i riktig webbläsare | `node tests/web/test.mjs <mei-mapp>` | 45 |
 | MEI-mapp | `dotnet run --project tests/verovio-t6/MeiDump -- corpus <mapp>` | – |
 | Android-bygge | `dotnet build src/ScoreLite.App -f net10.0-android` | – |
+| iOS-kompilering (CI, macOS) | `.github/workflows/ios-build.yml`: net8.0-testerna + `dotnet build -f net10.0-ios` mot simulator, utan signering (decisions #32) | – |
 
 Antalen är hämtade från `CLAUDE.md` och ändras när tester läggs till. Korpus: `corpus/` (8 egna filer). Inget test täcker iOS-koden, UI eller prestanda på enhet (se `docs/device-checklist.md`).
 

@@ -1,0 +1,43 @@
+# Kompileringskontroll av iOS-koden (decisions #26, #32). Bygger mot simulatorn utan signering.
+# Provar inte ljud, UI eller prestanda: det kräver en riktig iPhone (docs/device-checklist.md).
+name: ios-build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ios-simulator-build:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Miljö
+        run: |
+          dotnet --info
+          xcodebuild -version
+          xcode-select -p
+
+      - name: Installera MAUI-workload för iOS
+        run: dotnet workload install maui-ios
+
+      - name: Enhetstester (net8.0)
+        run: |
+          dotnet run --project tests/ScoreLite.Core.Tests -c Release
+          dotnet run --project tests/ScoreLite.Audio.Tests -c Release
+          dotnet run --project tests/ScoreLite.App.Tests -c Release
+
+      - name: Bygg iOS (simulator, utan signering)
+        run: >
+          dotnet build src/ScoreLite.App/ScoreLite.App.csproj
+          -f net10.0-ios -c Debug
+          -p:RuntimeIdentifier=iossimulator-arm64
+          -p:EnableCodeSigning=false
+          -p:CodesignRequireProvisioningProfile=false
