@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ScoreLite.Audio/1.0.0": {
+        "dependencies": {
+          "ScoreLite.Core": "1.0.0"
+        },
+        "runtime": {
+          "ScoreLite.Audio.dll": {}
+        }
+      },
+      "ScoreLite.Core/1.0.0": {
+        "runtime": {
+          "ScoreLite.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ScoreLite.Audio/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ScoreLite.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

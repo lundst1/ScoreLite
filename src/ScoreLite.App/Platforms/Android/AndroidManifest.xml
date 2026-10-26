@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- P1, DR-14: inga nätverksbehörigheter och ingen telemetri. (Debug-bygget lägger själv till INTERNET för felsökaren.) -->
+	<application android:allowBackup="false" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:label="ScoreLite"></application>
+</manifest>

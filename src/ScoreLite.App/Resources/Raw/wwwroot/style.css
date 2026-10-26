@@ -1,0 +1,20 @@
+:root { --paper: #ffffff; --ink: #111111; --cursor: rgba(0, 110, 255, 0.85); --marker: #d9480f; }
+body[data-theme="dark"] { --paper: #121212; --ink: #e8e8e8; --cursor: rgba(120, 180, 255, 0.9); --marker: #ff922b; }
+
+html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; }
+body { overscroll-behavior: contain; -webkit-tap-highlight-color: transparent; }
+
+#wrap { position: relative; width: 100%; min-height: 100vh; }
+#score { position: relative; width: 100%; }
+#score svg { display: block; color: var(--ink); }
+#score svg g.note, #score svg g.measure { cursor: pointer; }
+
+/* Uppspelningspekaren (AL-12). Övergången är kort så att rörelsen följer ljudet. */
+#cursor { position: absolute; width: 3px; margin-left: -1px; border-radius: 2px; background: var(--cursor);
+          pointer-events: none; transition: left 0.08s linear, top 0.08s linear, height 0.08s linear; z-index: 3; }
+
+/* Startmarkören: en liten flagga vid vänstra kanten av noten eller takten. */
+#marker { position: absolute; pointer-events: none; z-index: 2; width: 2px; background: var(--marker); }
+#marker .flag { position: absolute; top: 0; left: 2px; width: 12px; height: 9px; background: var(--marker);
+                clip-path: polygon(0 0, 100% 50%, 0 100%); }
+[hidden] { display: none !important; }

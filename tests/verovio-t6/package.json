@@ -1,0 +1,1 @@
+{ "name": "verovio-t6", "private": true, "type": "module", "dependencies": { "verovio": "6.3.0" } }

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ScoreLite.App.ViewModels;assembly=ScoreLite.App.Core"
+             x:Class="ScoreLite.App.Views.ScorePage"
+             x:DataType="vm:ScoreViewModel"
+             Title="{Binding Title}"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+        <!-- Övre fält: tillbaka, titel, varningar, stämmor (§11.1) -->
+        <Grid Grid.Row="0" ColumnDefinitions="48,*,48,Auto" Padding="4,4" ColumnSpacing="4">
+            <Button Grid.Column="0" Text="&#x2039;" FontSize="26" WidthRequest="48" HeightRequest="48" Padding="0"
+                    Clicked="OnBackClicked" SemanticProperties.Description="Tillbaka" />
+            <Label Grid.Column="1" Text="{Binding Title}" FontSize="18" LineBreakMode="TailTruncation" VerticalOptions="Center"
+                   SemanticProperties.HeadingLevel="Level1" />
+            <Button Grid.Column="2" Text="!" WidthRequest="48" HeightRequest="48" Padding="0" IsVisible="{Binding HasWarnings}"
+                    Command="{Binding ToggleWarningsCommand}" SemanticProperties.Description="Visa varningar" />
+            <Button Grid.Column="3" Text="Stämmor" HeightRequest="48" MinimumWidthRequest="88"
+                    Clicked="OnPartsClicked" SemanticProperties.Description="Välj stämmor" />
+        </Grid>
+
+        <!-- Felmeddelande eller degraderat läge (§12.3) -->
+        <Label Grid.Row="1" Text="{Binding ErrorMessage}" IsVisible="{Binding HasError}"
+               Padding="12,6" BackgroundColor="#FFF3CD" TextColor="#5C4400" SemanticProperties.Description="Meddelande" />
+
+        <!-- Notbilden (UI-8) -->
+        <Grid Grid.Row="2">
+            <HybridWebView x:Name="Web" HybridRoot="wwwroot" DefaultFile="index.html"
+                           SizeChanged="OnWebSizeChanged" SemanticProperties.Description="Notbild" />
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" HorizontalOptions="Center" VerticalOptions="Center" />
+
+            <!-- Varningslista (UI-9) -->
+            <Border IsVisible="{Binding ShowWarnings}" VerticalOptions="Start" Margin="12" Padding="12" BackgroundColor="{AppThemeBinding Light=White, Dark=#2A2A2A}"
+                    StrokeShape="RoundRectangle 8">
+                <VerticalStackLayout Spacing="6" BindableLayout.ItemsSource="{Binding Warnings}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Label Text="{Binding .}" FontSize="14" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Bottenpanel för stämmor (UI-7) -->
+            <Border x:Name="PartsSheet" IsVisible="False" VerticalOptions="End" Padding="12" StrokeShape="RoundRectangle 12,12,0,0"
+                    BackgroundColor="{AppThemeBinding Light=White, Dark=#2A2A2A}">
+                <VerticalStackLayout Spacing="4">
+                    <Grid ColumnDefinitions="*,Auto,Auto">
+                        <Label Text="Stämmor" FontSize="18" VerticalOptions="Center" SemanticProperties.HeadingLevel="Level2" />
+                        <Button Grid.Column="1" Text="Alla" HeightRequest="48" MinimumWidthRequest="64" Command="{Binding SelectAllPartsCommand}"
+                                SemanticProperties.Description="Välj alla stämmor" />
+                        <Button Grid.Column="2" Text="Klar" HeightRequest="48" MinimumWidthRequest="64" Clicked="OnPartsClicked"
+                                SemanticProperties.Description="Stäng stämmalistan" />
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding Parts}" MaximumHeightRequest="320">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:PartItemViewModel">
+                                <Grid ColumnDefinitions="48,*" MinimumHeightRequest="48" SemanticProperties.Description="{Binding AccessibilityLabel}">
+                                    <CheckBox IsChecked="{Binding IsSelected, Mode=OneWay}" IsEnabled="{Binding CanToggle}" VerticalOptions="Center"
+                                              CheckedChanged="OnPartCheckedChanged" />
+                                    <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="Center" FontSize="16" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- Kontroller (UI-2 till UI-6) -->
+        <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,*,*,*" Padding="8" ColumnSpacing="6">
+            <Button Grid.Column="0" Text="{Binding PlayPauseGlyph}" FontSize="22" WidthRequest="56" HeightRequest="56" Padding="0"
+                    Command="{Binding PlayPauseCommand}" SemanticProperties.Description="{Binding PlayPauseLabel}" />
+            <Button Grid.Column="1" Text="&#x25A0;" FontSize="22" WidthRequest="56" HeightRequest="56" Padding="0"
+                    Command="{Binding StopCommand}" SemanticProperties.Description="Stoppa" />
+            <Button Grid.Column="2" Text="Metronom" HeightRequest="56" FontSize="13" Padding="2" Command="{Binding ToggleMetronomeCommand}"
+                    SemanticProperties.Description="{Binding MetronomeLabel}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding MetronomeEnabled}" Value="False">
+                        <Setter Property="Opacity" Value="0.55" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Grid.Column="3" Text="Inräkning" HeightRequest="56" FontSize="13" Padding="2" Command="{Binding ToggleCountInCommand}"
+                    SemanticProperties.Description="{Binding CountInLabel}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding CountInEnabled}" Value="False">
+                        <Setter Property="Opacity" Value="0.55" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Grid.Column="4" Text="Följ" HeightRequest="56" FontSize="13" Padding="2" Command="{Binding ToggleFollowCommand}"
+                    SemanticProperties.Description="{Binding FollowLabel}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding FollowEnabled}" Value="False">
+                        <Setter Property="Opacity" Value="0.55" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </Grid>
+    </Grid>
+</ContentPage>

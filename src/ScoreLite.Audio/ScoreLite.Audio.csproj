@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- DR-01: bumpa till net10.0 när SDK:n finns (samma avvikelse som Core, se docs/decisions.md). -->
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- C# 13: den vendrade MeltySynth-koden kompilerar inte med C# 14 (span-konverteringar). Koden är oförändrad. -->
+    <LangVersion>13.0</LangVersion>
+    <RootNamespace>ScoreLite.Audio</RootNamespace>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScoreLite.Core\ScoreLite.Core.csproj" />
+  </ItemGroup>
+</Project>

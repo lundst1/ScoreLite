@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ScoreLite.App.Views.LicensesPage"
+             Title="Licenser">
+    <!-- DR-35: erkännanden och copyright-notiser som ljudfontens, MeltySynths och Verovios licenser kräver. -->
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+            <Label Text="ScoreLite använder följande komponenter." />
+            <Label Text="GeneralUser GS (ljudfont)" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            <Label x:Name="FontLicense" FontSize="12" />
+            <Label Text="MeltySynth (syntetisator, MIT)" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            <Label x:Name="SynthLicense" FontSize="12" />
+            <Label Text="Verovio (notbild, LGPL v3)" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="Verovio levereras som oförändrad JavaScript-fil (verovio-toolkit-wasm.js) i appens resurser. Källkod: https://github.com/rism-digital/verovio" FontSize="12" />
+            <Label x:Name="VerovioLicense" FontSize="12" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

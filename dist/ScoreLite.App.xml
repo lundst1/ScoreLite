@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ScoreLite.App</name>
+    </assembly>
+    <members>
+        <member name="T:ScoreLite.App.Platforms.AndroidAudio.AndroidAudioOutput">
+            <summary>
+            IF-4 på Android: en <see cref="T:Android.Media.AudioTrack"/> i strömläge (float, stereo, 44100 Hz, låg latens) som matas från
+            <see cref="T:ScoreLite.Audio.RingBuffer"/> av en egen tråd. Tråden gör bara det som driver-callbacken får göra (§7.4): läsa ur ringbufferten
+            och skriva till AudioTrack. <see cref="P:ScoreLite.App.Platforms.AndroidAudio.AndroidAudioOutput.OutputLatencyFrames"/> mäts med <c>AudioTrack.GetTimestamp</c>.
+            </summary>
+        </member>
+        <member name="T:ScoreLite.App.Platforms.AndroidAudio.AndroidAudioSession">
+            <summary>
+            R4: ljudfokus och utdragna hörlurar. Förlorat fokus (samtal, annan app) och <c>ACTION_AUDIO_BECOMING_NOISY</c>
+            ger <see cref="E:ScoreLite.App.Platforms.AndroidAudio.AndroidAudioSession.Interrupted"/>, som <c>ScoreViewModel</c> svarar på med Pause.
+            </summary>
+        </member>
+        <member name="T:ScoreLite.App.Services.IncomingFiles">
+            <summary>”Öppna med” från andra appar (UI-1). Filer som kommer innan startsidan lyssnar sparas tills den gör det.</summary>
+        </member>
+        <member name="T:ScoreLite.App.Services.PreferencesSettings">
+            <summary>DR-25: inställningar lokalt i plattformens Preferences.</summary>
+        </member>
+        <member name="T:ScoreLite.App.Services.DisplayKeepAwake">
+            <summary>DR-22: skärmen hålls tänd under uppspelning.</summary>
+        </member>
+        <member name="T:ScoreLite.App.Services.ScoreSession">
+            <summary>Delar partituret och motorn mellan startsidan och partitursidan.</summary>
+        </member>
+        <member name="M:ScoreLite.App.Services.ScoreSession.ClearData">
+            <summary>P1: partituret hålls inte kvar i minnet efter laddningen.</summary>
+        </member>
+        <member name="T:ScoreLite.App.Services.SoundFontProvider">
+            <summary>Läser den paketerade ljudfonten en gång i bakgrunden (K14). Delas av alla motorer (V9).</summary>
+        </member>
+        <member name="M:ScoreLite.App.Services.SoundFontProvider.Preload">
+            <summary>Startar laddningen vid appstart så att den är klar när användaren valt en fil.</summary>
+        </member>
+        <member name="T:ScoreLite.App.Services.MainThreadContext">
+            <summary>SynchronizationContext som levererar snapshots på UI-tråden (§7.4).</summary>
+        </member>
+        <member name="M:ScoreLite.App.Services.PlaybackEngineFactory.CreateAsync">
+            <summary>Skapar motor och avbrottskälla. Vid fel i ljud eller ljudfont returneras <see cref="T:ScoreLite.App.NullPlaybackEngine"/> (§12.3).</summary>
+        </member>
+        <member name="T:ScoreLite.App.Services.HybridWebViewScoreBridge">
+            <summary>
+            IF-5 över <see cref="T:Microsoft.Maui.Controls.HybridWebView"/> (V11). C# -> JS: <c>SendRawMessage(json)</c>, som i JS tas emot som
+            händelsen <c>HybridWebViewMessageReceived</c> och vidarebefordras till <c>window.bridge.receive</c>.
+            JS -> C#: <c>HybridWebView.SendRawMessage(json)</c> blir <see cref="E:Microsoft.Maui.Controls.HybridWebView.RawMessageReceived"/>.
+            Data skickas alltid som JSON-text, aldrig som kod (S4).
+            </summary>
+        </member>
+        <member name="T:ScoreLite.App.Services.PlatformAudio">
+            <summary>Plattformens ljudutgång och avbrottskälla (IF-4, R4).</summary>
+        </member>
+        <member name="T:ScoreLite.App.Resource">
+            <summary>
+            Android Resource Designer class.
+            Exposes the Android Resource designer assembly into the project Namespace.
+            </summary>
+        </member>
+    </members>
+</doc>

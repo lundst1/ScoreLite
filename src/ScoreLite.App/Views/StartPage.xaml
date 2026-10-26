@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ScoreLite.App.ViewModels;assembly=ScoreLite.App.Core"
+             x:Class="ScoreLite.App.Views.StartPage"
+             x:DataType="vm:StartViewModel"
+             Title="ScoreLite"
+             Shell.NavBarIsVisible="False">
+    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="24" Padding="32">
+        <Label Text="ScoreLite" FontSize="36" FontAttributes="Bold" HorizontalOptions="Center"
+               SemanticProperties.HeadingLevel="Level1" />
+        <Label Text="Spela upp MuseScore-filer (.mscz)" FontSize="16" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+        <Button Text="Öppna fil" Command="{Binding OpenFileCommand}" IsEnabled="{Binding IsIdle}"
+                MinimumHeightRequest="56" MinimumWidthRequest="200" FontSize="18"
+                SemanticProperties.Description="Öppna fil" />
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+        <Label Text="Licenser" FontSize="14" HorizontalOptions="Center" TextDecorations="Underline" MinimumHeightRequest="44"
+               VerticalTextAlignment="Center" SemanticProperties.Description="Visa licenser">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnLicensesTapped" />
+            </Label.GestureRecognizers>
+        </Label>
+    </VerticalStackLayout>
+</ContentPage>

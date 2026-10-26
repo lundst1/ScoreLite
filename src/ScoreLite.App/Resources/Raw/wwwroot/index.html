@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <!-- S5: bara lokalt paketerat innehåll. connect-src 'self' behövs för att HybridWebView ska kunna skicka meddelanden till
+       C# (same-origin fetch mot appens egen virtuella värd, inget nätverk). Appen saknar INTERNET-behörighet. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <title>ScoreLite</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="light">
+  <div id="wrap">
+    <div id="score" role="img" aria-label="Notbild"></div>
+    <div id="marker" hidden><div class="flag"></div></div>
+    <div id="cursor" hidden></div>
+  </div>
+  <script src="_framework/hybridwebview.js"></script>
+  <script src="verovio/verovio-toolkit-wasm.js"></script>
+  <script src="bridge-core.js"></script>
+  <script src="bridge.js"></script>
+</body>
+</html>

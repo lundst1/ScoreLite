@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Plattformsoberoende del av appen (ViewModels, brygga, tjänstegränssnitt) så att den kan testas utan MAUI. Se decisions.md #21. -->
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>ScoreLite.App</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <ProjectReference Include="..\ScoreLite.Core\ScoreLite.Core.csproj" />
+    <ProjectReference Include="..\ScoreLite.Audio\ScoreLite.Audio.csproj" />
+  </ItemGroup>
+</Project>
