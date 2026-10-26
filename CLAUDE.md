@@ -8,7 +8,7 @@
 Källa till sanning: `docs/Designdokument-v0.4.md` (SKA/BÖR/FÅR, ID:n P/F/N/S/R/U/K/Q/T/DR/V/IF/AL/M/A). Läs den efter `docs/architecture.md` (arkitektur i nuläge, AI-optimerad). Genomförandebeslut och avvikelser: `docs/decisions.md` (#1–29). Miljö: `docs/dev-environment.md`. Enhetstester att fylla i: `docs/device-checklist.md`. Juridik före release: `docs/legal-review.md`.
 
 ## Status (2026-10-26)
-Core, Audio och en fungerande Android-app finns. Appen har körts i emulator (Pixel 6, API 35): öppna med, rendering, uppspelning, pekare, följ-läge, startmarkör, stämmapanel. iOS-koden är skriven men aldrig kompilerad. Ljud på riktig enhet är inte provat.
+Core, Audio och en fungerande Android-app finns. Appen har körts i emulator (Pixel 6, API 35): öppna med, rendering, uppspelning, pekare, följ-läge, startmarkör, stämmapanel. iOS-koden kompilerar i CI (macOS-runner) men har aldrig körts. Ljud på riktig enhet är inte provat.
 
 Projekt:
 - `src/ScoreLite.Core` – parser, modell, spelordning, händelser, MEI-export, pekartidslinje (net8.0).
