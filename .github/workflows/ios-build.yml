@@ -31,10 +31,20 @@ jobs:
         run: dotnet workload install maui-ios maui-android
 
       - name: Enhetstester (net8.0)
+        shell: bash
         run: |
-          dotnet run --project tests/ScoreLite.Core.Tests -c Release
-          dotnet run --project tests/ScoreLite.Audio.Tests -c Release
-          dotnet run --project tests/ScoreLite.App.Tests -c Release
+          set +e
+          fail=0
+          for t in Core Audio App; do
+            dotnet run --project tests/ScoreLite.$t.Tests -c Release 2>&1 | tee test-$t.log
+            code=${PIPESTATUS[0]}
+            if [ "$code" -ne 0 ]; then
+              fail=1
+              # Lyft fram de sista raderna (felen) som annoteringar.
+              tail -15 test-$t.log | while IFS= read -r line; do echo "::error::[$t] ${line:0:800}"; done
+            fi
+          done
+          exit $fail
 
       - name: Bygg iOS (simulator, utan signering)
         shell: bash
@@ -57,4 +67,5 @@ jobs:
           name: ios-build-log
           path: |
             build.log
+            test-*.log
             build.binlog
