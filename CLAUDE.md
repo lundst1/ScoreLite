@@ -25,7 +25,7 @@ Tester (egna testlöpare, ingen xunit). Korpus: `corpus/` (8 egna MuseScore 4-fi
 
 ## Öppet / ej gjort
 Fullständig lista över vad som är provat och inte: `docs/verification-status.md` (påstå aldrig att något ej provat fungerar).
-- **Mörkt tema (decisions #30):** notbilden är nu alltid svart på vit bakgrund (kod och webbtest klara). Ej provad på telefon.
+- **Mörkt tema (decisions #30):** notbilden är nu alltid svart på vit bakgrund (kod, webbtest och ägarens kontroll på telefon klara).
 - Uppspelning med ljud är provad av ägaren på riktig Android-telefon (2026-10-26); siffror för R3/F7/F6 saknas fortfarande.
 - **Enhet:** R3 (10 min utan underskott), F7 (≤50 ms), F6 (≤300 ms), N2 (APK 50,6 MB arm64 utan trimning, på gränsen), kallstart, minne. Mät på telefon (M0b).
 - **iOS:** koden kompilerar i CI (`.github/workflows/ios-build.yml`, simulator, decisions #32–34). Ej provad: ljud, latens, avbrott och ”Öppna med” på riktig iPhone (`IosAudioOutput`, `IosAudioSession`, `AppDelegate.OpenUrl`, `Info.plist`). CI-bygget är beroende av runnerns Xcode-version och ett fast workload-set, se decisions #34.

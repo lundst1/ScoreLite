@@ -26,7 +26,7 @@
 | Kallstart ≤ 2 s, minnesanvändning | **Ej provat** | CLAUDE.md |
 | N2: APK ≤ 50 MB | Mätt 50,6 MB (arm64, utan trimning). Över gränsen. Åtgärder ej provade (AAB, trimning, AOT, beskuren SF2) | decisions #27 |
 | N4: tillgänglighet (TalkBack, stor text, 44 dp) | **Ej provat** | device-checklist |
-| Mörkt systemtema: notbilden alltid svart på vit | Åtgärdad i kod och webbtest (decisions #30). **Ej provad på telefon** | decisions #30 |
+| Mörkt systemtema: notbilden alltid svart på vit | Åtgärdad i kod och webbtest. Ägaren bekräftade på telefon 2026-10-26 att marginalen och utseendet ser bra ut (ny APK) | decisions #30 |
 | Release-signering, ikon, splash | **Ej gjort** (mallens) | CLAUDE.md |
 
 ## 2. Plattform: iOS
